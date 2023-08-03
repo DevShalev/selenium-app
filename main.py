@@ -7,8 +7,8 @@ from selenium.webdriver.common.keys import Keys
 import time
 
 #prevent from the web page auto close
-from selenium.webdriver.chrome.options import Options
-chrome_options = Options()
+
+
 
 TCB_USERNAME = ""
 TCB_PASSWORD = ""
@@ -38,10 +38,11 @@ class LoginToTcb:
     def login_step_3(self):
         time.sleep(5)
         password = driver.find_element(By.ID, "ldapPassword")
+
         password.send_keys(TCB_PASSWORD)
         password.send_keys(Keys.ENTER)
         #prevent from the web page to auto close!
-        chrome_options.add_experimental_option("detach", True)
+
         time.sleep(10)
 
 
@@ -56,6 +57,7 @@ class LoginToTcb:
 class LinkedInJobs:
     def login_linkedin(self):
         driver.get("https://www.linkedin.com/checkpoint/lg/sign-in-another-account")
+
         time.sleep(5)
         username = driver.find_element(By.ID, "username")
         password = driver.find_element(By.ID, "password")
@@ -73,9 +75,35 @@ class LinkedInJobs:
         jobs = driver.find_elements(By.CSS_SELECTOR, ".job-card-list a")
         for n in range(len(jobs)):
             print(jobs[n].text)
+            jobs[n].click()
+            time.sleep(5)
+            applybuton = jobs[n].find_element(By.CLASS_NAME, "jobs-apply-button artdeco-button artdeco-button--3 artdeco-button--primary ember-view")
+            applybuton.click()
+            time.sleep(5)
+            driver.find_element(By.CSS_SELECTOR,"button.artdeco-button--tertiary").click()
+            time.sleep(5)
 
-        chrome_options.add_experimental_option("detach", True)
+
+        time.sleep(2)
+
 
 
 linked = LinkedInJobs()
 linked.login_linkedin()
+
+
+class TokenGeneration:
+    def token256(self):
+        driver.get("https://generate-random.org/api-token-generator?count=1&length=256&type=mixed-numbers-symbols&prefix=")
+        time.sleep(5)
+
+        button = driver.find_element(By.CSS_SELECTOR, "button.btn-lg")
+        button.click()
+        time.sleep(5)
+        token256 = driver.find_element(By.CSS_SELECTOR , "p.cursor-copy")
+        print("Random Token 256Bit: " + token256.text)
+
+
+
+# RandomToken = TokenGeneration()
+# RandomToken.token256()
